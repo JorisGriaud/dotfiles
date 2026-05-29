@@ -15,7 +15,7 @@ L'objectif de ce "rice" est d'offrir un flux de travail fluide, orienté clavier
 * **Barre d'état :** [Quickshell](https://quickshell.outfoxxed.me/) *(Qui est en développement et va remplacer waybar)*
 * **Menu de déconnexion :** [Wlogout](https://github.com/ArtsyMacaw/wlogout)
 * **Thème GTK :** Fork personnalisé de [Orchis-Theme](https://github.com/vinceliuice/Orchis-theme)
-* **Gestionnaire de connexion :** SDDM
+* **Gestionnaire de connexion :** SDDM [pixie](https://github.com/xCaptaiN09/pixie-sddm) 
 * **Curseur :** Bibata-Modern-Classic
 * **Gestionnaire de dotfiles :** GNU Stow
 

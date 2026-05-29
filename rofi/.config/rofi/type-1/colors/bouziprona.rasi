@@ -1,0 +1,16 @@
+/**
+ *
+ * Author : Joris Griaud (lachimeur)
+ * Github : @JorisGriaud
+ * 
+ * Colors
+ **/
+
+* {
+    background:     #1a1d23FF;
+    background-alt: #2f343aFF;
+    foreground:     #FFFFFFFF;
+    selected:       #3b82f6FF;
+    active:         #3bb77eFF;
+    urgent:         #ef4444FF;
+}

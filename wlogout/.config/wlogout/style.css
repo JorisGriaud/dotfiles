@@ -1,0 +1,91 @@
+/* =========================================================
+   WLOGOUT THEME 
+   ========================================================= */
+
+* {
+  font-family: "Inter", "JetBrains Mono", sans-serif;
+  background-image: none;
+  transition: box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out, border 0.2s ease-in-out;
+}
+
+/* Fond assombri derrière le menu (Couleur #1a1d23 avec 85% d'opacité) */
+window {
+  background-color: rgba(26, 29, 35, 0.85);
+}
+
+/* Style de base des boutons (Fond --card, texte --foreground, bordure --border) */
+button {
+  color: #ffffff;
+  background-color: #2f343a;
+  border: 2px solid #5a5f64;
+  border-radius: 25px;
+  margin: 15px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 25%;
+}
+
+/* 1. Effet au survol avec la souris (Reste tout bleu) */
+button:hover {
+  background-color: #3b82f6;
+  border: 2px solid #60a5fa;
+  outline-style: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* 2. Bouton pré-sélectionné au clavier à l'ouverture (Le "Focus") */
+button:focus {
+  outline-style: none;
+  background-color: #2f343a; /* On garde le fond gris par défaut */
+  border: 2px solid #3b82f6; /* On met juste une bordure bleue pour savoir où on est */
+}
+
+/* 3. Quand on clique vraiment dessus */
+button:active {
+  background-color: #3b82f6;
+}
+
+/* Survol spécifique : Éteindre le PC (Rouge --destructive) */
+#shutdown:hover,
+#shutdown:focus {
+  background-color: #ef4444;
+  border: 2px solid #f87171;
+}
+
+/* Survol spécifique : Redémarrer (Vert --accent) */
+#reboot:hover,
+#reboot:focus {
+  background-color: #3bb77e;
+  border: 2px solid #4ade80;
+}
+
+/* Survol spécifique : Déconnexion (Gris/Bleu --muted) */
+#logout:hover,
+#logout:focus {
+  background-color: #5a5f64;
+  border: 2px solid #d1d5db;
+}
+
+#lock {
+    background-image: url("/home/jorisgriaud/.config/wlogout/icons/lock.svg");
+}
+
+#logout {
+    background-image: url("/home/jorisgriaud/.config/wlogout/icons/logout.svg");
+}
+
+#suspend {
+    background-image: url("/home/jorisgriaud/.config/wlogout/icons/suspend.svg");
+}
+
+#hibernate {
+    background-image: url("/home/jorisgriaud/.config/wlogout/icons/hibernate.svg");
+}
+
+#shutdown {
+    background-image: url("/home/jorisgriaud/.config/wlogout/icons/shutdown.svg");
+}
+
+#reboot {
+    background-image: url("/home/jorisgriaud/.config/wlogout/icons/reboot.svg");
+}

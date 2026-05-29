@@ -16,7 +16,7 @@ L'objectif de ce "rice" est d'offrir un flux de travail fluide, orienté clavier
 * **Menu de déconnexion :** [Wlogout](https://github.com/ArtsyMacaw/wlogout)
 * **Thème GTK :** Fork personnalisé de [Orchis-Theme](https://github.com/vinceliuice/Orchis-theme)
 * **Gestionnaire de connexion :** SDDM
-* **Curseur :** *(Mets le nom de ton curseur ici)*
+* **Curseur :** Bibata-Modern-Classic
 * **Gestionnaire de dotfiles :** GNU Stow
 
 ## 🎨 Palette de Couleurs (Tailwind Inspired)

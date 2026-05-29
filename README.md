@@ -12,7 +12,7 @@ L'objectif de ce "rice" est d'offrir un flux de travail fluide, orienté clavier
 
 * **OS :** Fedora Linux
 * **Window Manager :** [Hyprland](https://hyprland.org/) *(Compatible v0.55+ avec la nouvelle syntaxe IPC Lua)*
-* **Barre d'état :** [Quickshell](https://quickshell.outfoxxed.me/) *(Codée en QML, intégrant l'horloge système native et le dispatch Hyprland)*
+* **Barre d'état :** [Quickshell](https://quickshell.outfoxxed.me/) *(Qui est en développement et va remplacer waybar)*
 * **Menu de déconnexion :** [Wlogout](https://github.com/ArtsyMacaw/wlogout)
 * **Thème GTK :** Fork personnalisé de [Orchis-Theme](https://github.com/vinceliuice/Orchis-theme)
 * **Gestionnaire de connexion :** SDDM

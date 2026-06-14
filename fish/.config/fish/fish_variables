@@ -1,3 +1,4 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR __fish_initialized:4300
+SETUVAR fish_user_paths:/home/jorisgriaud/applications/PyCharm\x2d2026\x2e1\x2e2/bin\x1e/home/jorisgriaud/applications/Idea\x2d2026\x2e1\x2e2/bin\x1e/home/jorisgriaud/Applications/PyCharm\x2d2026\x2e1\x2e2/bin\x1e/home/jorisgriaud/Applications/Idea\x2d2026\x2e1\x2e2/bin

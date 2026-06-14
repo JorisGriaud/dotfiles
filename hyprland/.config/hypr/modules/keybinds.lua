@@ -3,10 +3,12 @@
 ---------------------
 
 -- Set programs that you use
-local terminal    = "kitty"
-local fileManager = "nautilus"
-local menu        = "./.config/rofi/type-1/launcher.sh"
-local browser     = "firefox"
+local terminal       = "kitty"
+local fileManager    = "thunar"
+local menu           = "qs ipc call island toggleLauncher"
+local power	     = "qs ipc call island togglePower"
+local control_center = "qs ipc call island toggleControlCenter"
+local browser        = "firefox"
 
 ---------------------
 ---- KEYBINDINGS ----
@@ -18,15 +20,15 @@ local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
 local closeWindowBind = hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
-hl.bind(mainMod .. " + Delete", hl.dsp.exec_cmd("pkill wlogout || wlogout"))
+hl.bind(mainMod .. " + Delete", hl.dsp.exec_cmd(power))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd(menu))
-hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("/home/jorisgriaud/.config/waybar/scripts/launch.sh"))
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("qs kill; qs -d"))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
-hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(control_center))
 -- hl.bind("ALT + S", hl.dsp.exec_cmd('grim -g "$(slurp)" - | wl-copy'))
 hl.bind("ALT + S", hl.dsp.exec_cmd('grim -g "$(slurp)" - | swappy -f -'))
 

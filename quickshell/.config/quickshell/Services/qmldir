@@ -1,0 +1,14 @@
+singleton Time Time.qml
+singleton Media Media.qml
+singleton Audio Audio.qml
+singleton AudioAliases AudioAliases.qml
+singleton Brightness Brightness.qml
+singleton Battery Battery.qml
+singleton Fan Fan.qml
+singleton Network Network.qml
+singleton Notifs Notifs.qml
+singleton AppSearch AppSearch.qml
+singleton FileSearch FileSearch.qml
+singleton NightLight NightLight.qml
+singleton PolkitService PolkitService.qml
+singleton IslandState IslandState.qml

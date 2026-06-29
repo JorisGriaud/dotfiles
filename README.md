@@ -28,12 +28,11 @@ sont **vectorielles** (aucune police d'icônes).
 
 * **OS :** Fedora Linux
 * **Window Manager :** [Hyprland](https://hyprland.org/) *(compatible v0.55+, nouvelle syntaxe IPC Lua)*
-* **Barre d'état :** [Quickshell](https://quickshell.outfoxxed.me/) — la *Morphing Island* maison *(remplace progressivement waybar)*
+* **Barre d'état & notifications & lanceur :** [Quickshell](https://quickshell.outfoxxed.me/) — la *Morphing Island* maison (remplace barre, notifications et lanceur classiques)
 * **Terminal :** [Kitty](https://sw.kovidgoyal.net/kitty/)
 * **Shell :** [Fish](https://fishshell.com/)
 * **Gestionnaire de fichiers :** [Thunar](https://docs.xfce.org/xfce/thunar/start)
 * **Gestionnaire de fichiers (TUI) :** [Yazi](https://yazi-rs.github.io/)
-* **Lanceur (secours) :** [Rofi](https://github.com/davatorium/rofi)
 * **Menu de déconnexion :** [Wlogout](https://github.com/ArtsyMacaw/wlogout)
 * **Thème GTK :** Fork personnalisé de [Orchis-Theme](https://github.com/vinceliuice/Orchis-theme)
 * **Gestionnaire de connexion :** SDDM [pixie](https://github.com/xCaptaiN09/pixie-sddm)
@@ -62,14 +61,15 @@ La gestion des fichiers est assurée par **GNU Stow**, ce qui permet de conserve
 ├── hyprland/      # ~/.config/hypr/
 ├── kitty/         # ~/.config/kitty/
 ├── quickshell/    # ~/.config/quickshell/   ← la Morphing Island
-├── rofi/          # ~/.config/rofi/
 ├── sddm/          # /etc/sddm.conf.d/ & /usr/share/sddm/themes/
-├── swaync/        # ~/.config/swaync/
-├── waybar/        # ~/.config/waybar/
 ├── wallpapers/    # ~/Pictures/Wallpapers/
 ├── wlogout/       # ~/.config/wlogout/
 └── yazi/          # ~/.config/yazi/
 ```
+
+> Les dossiers `rofi/`, `waybar/` et `swaync/` subsistent dans le dépôt (anciennes
+> configs) mais **ne sont plus utilisés** : lanceur, barre et notifications sont
+> désormais assurés par la Morphing Island.
 
 ## 🛠️ Installation & Déploiement
 
@@ -77,7 +77,7 @@ Pour cloner et appliquer cette configuration sur une nouvelle installation Fedor
 
 **1. Installer les dépendances requises**
 ```bash
-sudo dnf install stow git hyprland sddm kitty fish thunar rofi yazi \
+sudo dnf install stow git hyprland sddm kitty fish thunar yazi \
                  brightnessctl fd-find wl-clipboard
 # Quickshell : installez-le selon la documentation officielle
 # (https://quickshell.outfoxxed.me/). hyprsunset est optionnel (mode nuit).
@@ -94,7 +94,7 @@ cd ~/dotfiles
 **3. Déployer les configurations utilisateur**
 Utilisez Stow pour créer les liens symboliques dans votre répertoire personnel :
 ```bash
-stow hyprland quickshell kitty fish rofi yazi wlogout gtk cursor wallpapers
+stow hyprland quickshell kitty fish yazi wlogout gtk cursor wallpapers
 ```
 
 **4. Déployer la configuration système (SDDM)**

@@ -131,7 +131,7 @@ IslandView {
                     hasPage: true
                     title: Network.wiredConnected ? "Ethernet" : "Wi-Fi"
                     subtitle: Network.wiredConnected
-                              ? Network.ifaceName + (Network.ipAddress !== "" ? " — " + Network.ipAddress : "")
+                              ? Network.ifaceName + (Network.ipAddress !== "" ? " (" + Network.ipAddress + ")" : "")
                               : (Network.activeWifi?.name
                                  ?? (NM.Networking.wifiEnabled ? "Activé" : "Désactivé"))
                     active: Network.wiredConnected || NM.Networking.wifiEnabled

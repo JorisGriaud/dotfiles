@@ -131,7 +131,7 @@ IslandView {
 
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
-            text: "Entrée : valider — Échap : annuler"
+            text: "Entrée pour valider, Échap pour annuler"
             color: Theme.fgDim
             opacity: 0.7
             font.family: Theme.fontFamily

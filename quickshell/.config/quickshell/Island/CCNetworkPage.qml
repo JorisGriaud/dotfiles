@@ -67,9 +67,9 @@ Column {
             Repeater {
                 model: [
                     { k: "Interface", v: Network.ifaceName },
-                    { k: "Adresse IP", v: Network.ipAddress !== "" ? Network.ipAddress : "—" },
+                    { k: "Adresse IP", v: Network.ipAddress !== "" ? Network.ipAddress : "Aucune" },
                     { k: "Débit", v: Network.wiredDevice !== null && Network.wiredDevice.linkSpeed > 0
-                                     ? Network.wiredDevice.linkSpeed + " Mb/s" : "—" },
+                                     ? Network.wiredDevice.linkSpeed + " Mb/s" : "Inconnu" },
                 ]
                 delegate: Item {
                     required property var modelData
@@ -251,7 +251,7 @@ Column {
                 anchors.verticalCenter: parent.verticalCenter
                 visible: pskInput.text === ""
                 text: root.pskTarget !== null
-                      ? `Mot de passe pour « ${root.pskTarget.name} » — Entrée : connexion`
+                      ? `Mot de passe pour « ${root.pskTarget.name} » (Entrée pour se connecter)`
                       : ""
                 color: Theme.fgDim
                 opacity: 0.7

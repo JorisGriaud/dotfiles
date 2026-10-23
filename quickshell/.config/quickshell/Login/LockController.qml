@@ -1,6 +1,5 @@
 import QtQuick
 import Quickshell
-import Quickshell.Hyprland
 import Quickshell.Services.Pam
 
 /**
@@ -30,7 +29,13 @@ Scope {
     property int failCount: 0
     property string statusText: ""
 
-    property string activeScreen: Hyprland.focusedMonitor?.name ?? ""
+    readonly property string activeScreen: cursor.screenName
+
+    // vrai quand l'écran est affiché (verrouillé ou aperçu) : le suivi de
+    // la souris ne tourne pas le reste du temps
+    property bool running: false
+
+    CursorScreen { id: cursor; enabled: root.running }
 
     property string pending: ""
 

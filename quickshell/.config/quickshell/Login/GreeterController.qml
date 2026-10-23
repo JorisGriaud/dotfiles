@@ -1,7 +1,6 @@
 import QtQuick
 import Quickshell
 import Quickshell.Io
-import Quickshell.Hyprland
 import Quickshell.Services.Greetd
 import Quickshell.Services.Pam
 
@@ -34,7 +33,9 @@ Scope {
     property string statusText: ""     // message de réussite (démo)
 
     // écran qui porte le formulaire : celui où se trouve la souris
-    property string activeScreen: Hyprland.focusedMonitor?.name ?? ""
+    readonly property string activeScreen: cursor.screenName
+
+    CursorScreen { id: cursor }
 
     property string pending: ""
 

@@ -28,6 +28,7 @@ Scope {
             previewLoader.active = false
         }
         onEscapePressed: previewLoader.active = false
+        running: sessionLock.locked || previewLoader.active
     }
 
     WlSessionLock {
@@ -73,6 +74,7 @@ Scope {
 
         function lock(): void { root.lockNow() }
         function preview(): void { controller.reset(); previewLoader.active = true }
+        function closePreview(): void { previewLoader.active = false }
         function isLocked(): bool { return sessionLock.locked }
     }
 

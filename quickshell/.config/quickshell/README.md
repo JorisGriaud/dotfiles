@@ -215,6 +215,7 @@ Verrouillage (`qs ipc call lock <fn>`) :
 |---|---|
 | `lock` | verrouille la session |
 | `preview` | affiche l'écran de verrouillage sans verrouiller (Échap ferme) |
+| `closePreview` | ferme l'aperçu |
 | `isLocked` | renvoie `true` si la session est verrouillée |
 
 ### Gestes souris

@@ -1,4 +1,5 @@
 import QtQuick
+import Quickshell
 import QtQuick.Effects
 import qs.Config
 import qs.Icons
@@ -19,20 +20,16 @@ Item {
 
     required property var ctl
     required property string screenName
-    readonly property bool active: ctl.activeScreen === "" || ctl.activeScreen === screenName
+    // écran sous la souris (voir CursorScreen) ; avant la première lecture,
+    // on prend le premier écran pour ne pas afficher deux formulaires
+    readonly property bool active: ctl.activeScreen !== ""
+        ? ctl.activeScreen === screenName
+        : screenName === (Quickshell.screens[0]?.name ?? screenName)
     readonly property bool lockMode: ctl.mode === "lock"
     readonly property bool multiUser: ctl.users.length > 1
 
     // échelle : 1 pour un écran de 1440 px de haut (logique)
     readonly property real u: Math.max(0.6, height / 1440)
-
-    // la souris qui entre sur cet écran y amène le formulaire
-    MouseArea {
-        anchors.fill: parent
-        hoverEnabled: true
-        acceptedButtons: Qt.NoButton
-        onPositionChanged: root.ctl.activeScreen = root.screenName
-    }
 
     onActiveChanged: {
         field.text = ""

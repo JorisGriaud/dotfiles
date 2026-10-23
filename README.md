@@ -1,14 +1,14 @@
 # ❄️ Joris' Dotfiles : Hyprland & Quickshell
 
-Bienvenue dans mes fichiers de configuration ! Ce dépôt centralise mon environnement de travail sous **Fedora Linux**, construit autour du gestionnaire de fenêtres **Hyprland** (Wayland) et de composants développés sur mesure avec **Quickshell**.
+Mes fichiers de configuration sous **Fedora Linux 44**, autour du compositeur **Hyprland** (Wayland) et d'une interface entièrement écrite en **Quickshell** : barre, notifications, lanceur, menu d'alimentation, écran de verrouillage et même l'écran de connexion.
 
-L'objectif de ce "rice" est d'offrir un flux de travail fluide, orienté clavier, tout en maintenant une esthétique cohérente et moderne basée sur une palette de couleurs Tailwind CSS personnalisée.
+L'objectif : un bureau fluide, piloté au clavier, avec une seule charte graphique partout.
 
 ![Aperçu du bureau](quickshell/.config/quickshell/screenshots/00-overview.png)
 
 ---
 
-## 🏝️ Pièce maîtresse — Morphing Island
+## 🏝️ Pièce maîtresse : Morphing Island
 
 La barre est un **îlot dynamique flottant** codé from scratch en QML : une pilule
 unique en haut de l'écran qui **se transforme** (morphing par ressorts physiques
@@ -22,67 +22,95 @@ sont **vectorielles** (aucune police d'icônes).
 
 ➡️ **[Documentation complète, galerie et raccourcis de l'îlot](quickshell/.config/quickshell/README.md)**
 
+### Connexion et verrouillage
+
+Le même code Quickshell fournit aussi :
+
+* **l'écran de connexion**, lancé par [greetd](https://sr.ht/~kennylevinsen/greetd/) à la place de SDDM : grande horloge, avatar, champ du mot de passe, choix de la session. Sur deux écrans, le formulaire suit la souris ;
+* **l'écran de verrouillage** (Super+L), avec exactement le même visuel.
+
+Les fichiers sont dans [`quickshell/.config/quickshell/Login/`](quickshell/.config/quickshell/Login/), avec le point d'entrée [`greeter.qml`](quickshell/.config/quickshell/greeter.qml).
+
 ---
 
-## 🚀 Composants Principaux
+## 🚀 Ce que j'utilise
 
-* **OS :** Fedora Linux
-* **Window Manager :** [Hyprland](https://hyprland.org/) *(compatible v0.55+, nouvelle syntaxe IPC Lua)*
-* **Barre d'état & notifications & lanceur :** [Quickshell](https://quickshell.outfoxxed.me/) — la *Morphing Island* maison (remplace barre, notifications et lanceur classiques)
-* **Terminal :** [Kitty](https://sw.kovidgoyal.net/kitty/)
-* **Shell :** [Fish](https://fishshell.com/)
-* **Gestionnaire de fichiers :** [Thunar](https://docs.xfce.org/xfce/thunar/start)
-* **Gestionnaire de fichiers (TUI) :** [Yazi](https://yazi-rs.github.io/)
-* **Menu de déconnexion :** [Wlogout](https://github.com/ArtsyMacaw/wlogout)
-* **Thème GTK :** Fork personnalisé de [Orchis-Theme](https://github.com/vinceliuice/Orchis-theme)
-* **Gestionnaire de connexion :** SDDM [pixie](https://github.com/xCaptaiN09/pixie-sddm)
-* **Curseur :** Bibata-Modern-Classic
-* **Gestionnaire de dotfiles :** GNU Stow
+| Rôle | Outil |
+|---|---|
+| OS | Fedora Linux 44 |
+| Compositeur | [Hyprland](https://hyprland.org/) 0.56, configuration en **Lua** |
+| Barre, notifications, lanceur, OSD, menu power, agent Polkit | [Quickshell](https://quickshell.outfoxxed.me/) : la Morphing Island |
+| Écran de verrouillage | Quickshell (`Login/LockScreen.qml`) |
+| Écran de connexion | greetd + greeter Quickshell |
+| Fond d'écran | hyprpaper |
+| Mode nuit | hyprsunset (tuile du centre de contrôle) |
+| Terminal | [Kitty](https://sw.kovidgoyal.net/kitty/), police JetBrainsMono Nerd Font |
+| Shell | [Fish](https://fishshell.com/) |
+| Gestionnaire de fichiers | [Thunar](https://docs.xfce.org/xfce/thunar/start), et [Yazi](https://yazi-rs.github.io/) dans le terminal |
+| Navigateur | Firefox |
+| Captures d'écran | grim + slurp + swappy |
+| Thème GTK | BouziProNa-Dark, icônes Papirus-Dark |
+| Curseur | Bibata-Modern-Classic |
+| Polices | Inter (interface), JetBrains Mono (code) |
+| Gestion des dotfiles | GNU Stow |
 
-## 🎨 Palette de Couleurs (Tailwind Inspired)
+## 🎨 Palette de couleurs
 
-L'ensemble du système (GTK, Quickshell, Wlogout) partage une charte graphique unifiée pour garantir une transition visuelle parfaite entre les applications :
+L'interface Quickshell et le thème GTK partagent la même palette, inspirée de Tailwind et définie dans [`Config/Theme.qml`](quickshell/.config/quickshell/Config/Theme.qml) :
 
-* **Background :** `#1a1d23` (Noir profond)
-* **Surface / Cards :** `#2f343a` (Gris anthracite)
-* **Primary Accent :** `#3b82f6` (Bleu Tailwind)
-* **Success / Active :** `#3bb77e` (Vert)
-* **Destructive :** `#ef4444` (Rouge)
+| Rôle | Couleur |
+|---|---|
+| Fond | `#1a1d23` |
+| Surface / cartes | `#2f343a` |
+| Accent | `#3b82f6` |
+| Succès / actif | `#3bb77e` |
+| Danger | `#ef4444` |
 
-## 📂 Structure du Dépôt
+## ⌨️ Raccourcis principaux
 
-La gestion des fichiers est assurée par **GNU Stow**, ce qui permet de conserver l'architecture exacte des dossiers cibles sans script d'installation complexe.
+| Raccourci | Action |
+|---|---|
+| `Super + T` | Terminal (Kitty) |
+| `Super + Q` | Fermer la fenêtre |
+| `Super + A` | Lanceur de l'îlot |
+| `Super + N` | Centre de contrôle |
+| `Super + Suppr` | Menu d'alimentation (éteindre, redémarrer, déconnexion) |
+| `Super + L` | Verrouiller l'écran |
+| `Super + R` | Panneau de rafraîchissement (shell, réseau, son…) |
+| `Super + Shift + R` | Relancer Quickshell (si l'îlot est figé) |
+| `Super + E` | Thunar |
+| `Super + B` | Firefox |
+| `Super + V` | Fenêtre flottante |
+| `Super + S` / `Super + Shift + S` | Afficher / envoyer vers l'espace spécial |
+| `Super + 1…0` / `Super + Shift + 1…0` | Changer d'espace / y déplacer la fenêtre |
+| `Alt + S` | Capture d'une zone, annotée dans swappy |
+
+## 📂 Structure du dépôt
+
+Chaque dossier est un paquet **GNU Stow** qui reproduit l'arborescence de destination.
 
 ```text
 .
-├── cursor/        # ~/.local/share/icons/
 ├── fish/          # ~/.config/fish/
-├── gtk/           # ~/.themes/
-├── hyprland/      # ~/.config/hypr/
+├── gtk/           # ~/.themes/            (BouziProNa)
+├── hyprland/      # ~/.config/hypr/       (config Lua + hyprpaper)
 ├── kitty/         # ~/.config/kitty/
-├── quickshell/    # ~/.config/quickshell/   ← la Morphing Island
-├── sddm/          # /etc/sddm.conf.d/ & /usr/share/sddm/themes/
-├── wallpapers/    # ~/Pictures/Wallpapers/
-├── wlogout/       # ~/.config/wlogout/
+├── quickshell/    # ~/.config/quickshell/ ← îlot, greeter et verrouillage
+├── wallpapers/    # ~/Images/Wallpapers/
 └── yazi/          # ~/.config/yazi/
 ```
 
-> Les dossiers `rofi/`, `waybar/` et `swaync/` subsistent dans le dépôt (anciennes
-> configs) mais **ne sont plus utilisés** : lanceur, barre et notifications sont
-> désormais assurés par la Morphing Island.
+## 🛠️ Installation
 
-## 🛠️ Installation & Déploiement
-
-Pour cloner et appliquer cette configuration sur une nouvelle installation Fedora :
-
-**1. Installer les dépendances requises**
+**1. Dépendances**
 ```bash
-sudo dnf install stow git hyprland sddm kitty fish thunar yazi \
-                 brightnessctl fd-find wl-clipboard
-# Quickshell : installez-le selon la documentation officielle
-# (https://quickshell.outfoxxed.me/). hyprsunset est optionnel (mode nuit).
+sudo dnf copr enable errornointernet/quickshell
+sudo dnf install stow git hyprland hyprpaper hyprsunset quickshell \
+                 kitty fish Thunar yazi firefox grim slurp swappy wl-clipboard \
+                 brightnessctl fd-find rsms-inter-fonts jetbrains-mono-fonts \
+                 papirus-icon-theme
 ```
-> Dépendances spécifiques à l'îlot (réseau, audio, batterie, Bluetooth, polkit) :
+> Dépendances propres à l'îlot (réseau, audio, batterie, Bluetooth, Polkit) :
 > voir le [README de la Morphing Island](quickshell/.config/quickshell/README.md#-installation).
 
 **2. Cloner le dépôt**
@@ -91,23 +119,32 @@ git clone git@github.com:jorisgriaud/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 ```
 
-**3. Déployer les configurations utilisateur**
-Utilisez Stow pour créer les liens symboliques dans votre répertoire personnel :
+**3. Déployer les configurations**
 ```bash
-stow hyprland quickshell kitty fish yazi wlogout gtk cursor wallpapers
+stow hyprland quickshell kitty fish yazi gtk wallpapers
+```
+Le curseur Bibata-Modern-Classic n'est pas dans le dépôt : installe-le dans `~/.icons/`.
+
+**4. Écran de connexion (greetd)**
+```bash
+sudo ~/.config/quickshell/Login/greetd/install.sh            # installe greetd et copie le greeter
+sudo ~/.config/quickshell/Login/greetd/install.sh --enable   # remplace SDDM par greetd
+```
+Le greeter tourne sous l'utilisateur `greetd`, qui n'a pas accès à `$HOME` : le script en copie une version dans `/etc/greetd/quickshell`, avec le fond d'écran et l'avatar (`~/.face`). **Relance-le sans option après chaque modification de la config Quickshell.**
+
+Pour revenir à SDDM : `sudo ~/.config/quickshell/Login/greetd/install.sh --revert`.
+
+## ⚙️ Notes techniques (Hyprland 0.55+)
+
+Hyprland est configuré en **Lua** (`hyprland.lua` + `modules/*.lua`). Les dispatchers s'écrivent donc en syntaxe Lua, par exemple pour la déconnexion du menu power :
+
+```bash
+hyprctl dispatch 'hl.dsp.exit()'
 ```
 
-**4. Déployer la configuration système (SDDM)**
-Comme SDDM réside à la racine du système, une commande spécifique avec les privilèges administrateur est requise :
+Pour piloter l'îlot depuis un script :
+
 ```bash
-sudo stow -t / sddm
-```
-
-## ⚙️ Notes Techniques (Hyprland 0.55+)
-
-La Morphing Island est spécifiquement codée pour supporter le nouveau moteur Lua d'Hyprland (introduit dans la version 0.55). Les interactions de changement d'espace de travail utilisent le dispatcher natif structuré :
-
-```qml
-// Exemple d'IPC implémenté dans le shell.qml
-onClicked: Hyprland.dispatch("hl.dsp.focus({ workspace = " + modelData.id + " })")
+qs ipc call island toggleLauncher
+qs ipc call lock lock
 ```

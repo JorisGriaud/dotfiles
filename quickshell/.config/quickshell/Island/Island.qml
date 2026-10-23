@@ -89,6 +89,7 @@ PanelWindow {
         case "control": return controlV
         case "calendar": return calendarV
         case "power": return powerV
+        case "refresh": return refreshV
         case "polkit": return polkitV
         default: return restV
         }
@@ -127,6 +128,7 @@ PanelWindow {
         case "launcher":   // saisie
         case "polkit":     // mot de passe
         case "power":      // navigation flèches
+        case "refresh":    // flèches + 1–6
         case "control":    // Échap toujours actif : un clic dans le vide
         case "calendar":   // ne doit jamais voler le focus du panneau
             return WlrKeyboardFocus.Exclusive
@@ -140,7 +142,8 @@ PanelWindow {
     // qu'explicitement (Échap ou validation).
     readonly property bool panelOpen:
         isFocused && (view === "launcher" || view === "control"
-                   || view === "calendar" || view === "power")
+                   || view === "calendar" || view === "power"
+                   || view === "refresh")
 
     // masque d'entrée :
     //   plein écran (panneau ouvert) → TOUTE la fenêtre capte les clics
@@ -346,6 +349,13 @@ PanelWindow {
             anchors.top: parent.top
             anchors.horizontalCenter: parent.horizontalCenter
             active: win.view === "power"
+        }
+
+        RefreshView {
+            id: refreshV
+            anchors.top: parent.top
+            anchors.horizontalCenter: parent.horizontalCenter
+            active: win.view === "refresh"
         }
 
         PolkitView {

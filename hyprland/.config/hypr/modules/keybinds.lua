@@ -4,10 +4,11 @@
 
 -- Set programs that you use
 local terminal       = "kitty"
-local fileManager    = "thunar"
+local fileManager    = "thunar" -- "nautilus"
 local menu           = "qs ipc call island toggleLauncher"
 local power	     = "qs ipc call island togglePower"
 local control_center = "qs ipc call island toggleControlCenter"
+local refresh        = "qs ipc call island toggleRefresh"
 local browser        = "firefox"
 
 ---------------------
@@ -21,11 +22,15 @@ hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
 local closeWindowBind = hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
 hl.bind(mainMod .. " + Delete", hl.dsp.exec_cmd(power))
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("qs ipc call lock lock"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd(menu))
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("qs kill; qs -d"))
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(refresh))
+-- filet de secours : relance brute du shell si l'îlot est planté/figé
+-- (le panneau ci-dessus vit DANS quickshell, donc inaccessible dans ce cas)
+hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("qs kill; qs -d"))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(control_center))

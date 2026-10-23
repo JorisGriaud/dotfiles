@@ -1,1 +1,4 @@
 quickshell/.config/quickshell/backup
+# avatars : ne jamais les versionner
+**/avatar*
+.face

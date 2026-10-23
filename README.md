@@ -128,11 +128,13 @@ Le curseur Bibata-Modern-Classic n'est pas dans le dépôt : installe-le dans `~
 **4. Écran de connexion (greetd)**
 ```bash
 sudo ~/.config/quickshell/Login/greetd/install.sh            # installe greetd et copie le greeter
-sudo ~/.config/quickshell/Login/greetd/install.sh --enable   # remplace SDDM par greetd
+sudo ~/.config/quickshell/Login/greetd/install.sh --enable   # active greetd (et désactive SDDM s'il est installé)
 ```
 Le greeter tourne sous l'utilisateur `greetd`, qui n'a pas accès à `$HOME` : le script en copie une version dans `/etc/greetd/quickshell`, avec le fond d'écran et l'avatar (`~/.face`). **Relance-le sans option après chaque modification de la config Quickshell.**
 
-Pour revenir à SDDM : `sudo ~/.config/quickshell/Login/greetd/install.sh --revert`.
+Si l'écran de connexion ne s'affiche pas au démarrage : `Ctrl+Alt+F3`, connecte-toi, puis consulte `/tmp/quickshell-greeter.log` et `journalctl -b -u greetd`.
+
+Pour revenir à SDDM : `sudo ~/.config/quickshell/Login/greetd/install.sh --revert` (SDDM est réinstallé s'il a été supprimé).
 
 ## ⚙️ Notes techniques (Hyprland 0.55+)
 

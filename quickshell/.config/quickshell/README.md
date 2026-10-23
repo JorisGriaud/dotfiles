@@ -96,7 +96,9 @@ deux façons :
   (`Login/pam/password`).
 
 Sur plusieurs écrans, le formulaire suit la souris ; les autres écrans gardent
-le fond et l'horloge. Le fond vient de `hyprpaper.conf`, l'avatar de `~/.face`
+le fond et l'horloge. La position du curseur est lue avec `hyprctl cursorpos`
+(`Login/CursorScreen.qml`) : le greeter prend le clavier en exclusivité, et
+Hyprland garde alors aussi la souris sur sa fenêtre, donc le survol ne suffit pas. Le fond vient de `hyprpaper.conf`, l'avatar de `~/.face`
 (ou de l'icône AccountsService).
 
 **Essayer sans risque :**
@@ -104,6 +106,7 @@ le fond et l'horloge. Le fond vient de `hyprpaper.conf`, l'avatar de `~/.face`
 ```bash
 qs -p ~/.config/quickshell/greeter.qml   # aperçu du greeter (Échap pour quitter)
 qs ipc call lock preview                 # aperçu du verrouillage, sans verrouiller
+qs ipc call lock closePreview            # ferme l'aperçu
 ```
 
 **Installer le greeter** (le script copie la config dans `/etc/greetd/quickshell`,
@@ -111,8 +114,8 @@ car l'utilisateur `greetd` n'a pas accès à `$HOME`) :
 
 ```bash
 sudo Login/greetd/install.sh            # installe greetd + copie (à relancer après chaque modif)
-sudo Login/greetd/install.sh --enable   # désactive SDDM, active greetd
-sudo Login/greetd/install.sh --revert   # retour à SDDM
+sudo Login/greetd/install.sh --enable   # active greetd (et désactive SDDM s'il est installé)
+sudo Login/greetd/install.sh --revert   # retour à SDDM (réinstallé si besoin)
 ```
 
 Les écrans et la disposition clavier du greeter sont fixés dans

@@ -3,7 +3,7 @@
 #
 #   sudo ./install.sh            installe / met à jour les fichiers, ne change PAS de gestionnaire
 #   sudo ./install.sh --enable   idem + désactive SDDM et active greetd (effectif au prochain démarrage)
-#   sudo ./install.sh --revert   revient à SDDM
+#   sudo ./install.sh --revert   revient à SDDM (le réinstalle s'il a été supprimé)
 #
 # À relancer (sans option) après chaque modif de ~/.config/quickshell :
 # le greeter tourne sous l'utilisateur greetd, qui n'a pas accès à ton $HOME,
@@ -19,6 +19,7 @@ DEST=/etc/greetd/quickshell
 
 if [[ ${1:-} == --revert ]]; then
     systemctl disable greetd.service || true
+    rpm -q sddm >/dev/null || dnf install -y sddm
     systemctl enable sddm.service
     echo "SDDM réactivé. Redémarre pour revenir à l'ancien écran de connexion."
     exit 0
@@ -85,7 +86,7 @@ EOF
 
 if [[ ${1:-} == --enable ]]; then
     echo "→ Bascule SDDM → greetd"
-    systemctl disable sddm.service
+    systemctl disable sddm.service 2>/dev/null || true   # absent si SDDM est désinstallé
     systemctl enable greetd.service
     echo
     echo "C'est fait. Redémarre pour voir le nouveau greeter."

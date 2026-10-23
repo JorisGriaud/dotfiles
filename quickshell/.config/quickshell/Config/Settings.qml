@@ -29,8 +29,25 @@ Singleton {
     // ── Délais ──────────────────────────────────────────────────────────────
     readonly property int osdTimeout: 1500            // disparition de l'OSD
     readonly property int notifTimeout: 5000          // notification normale
-    readonly property int notifCriticalTimeout: 12000 // notification critique
     readonly property int hoverCloseDelay: 180        // grâce avant re-réduction
+
+    // ── Notifications ───────────────────────────────────────────────────────
+    // une notification critique ne disparaît pas seule : clic ou croix
+    // rafale : à partir de N notifications en attente, chacune ne reste que
+    // notifBurstTimeout ms (elles sont toutes dans l'historique de toute façon)
+    readonly property int notifBurstThreshold: 2
+    readonly property int notifBurstTimeout: 3000
+    readonly property int notifBodyLines: 2           // lignes du corps au repos
+    readonly property int notifBodyLinesHovered: 6    // lignes au survol
+    readonly property int notifMaxActions: 3          // boutons d'action affichés
+    // historique enregistré et rechargé au redémarrage de Quickshell
+    readonly property bool notifHistoryPersist: true
+
+    // Ne pas déranger : laisser passer les critiques, plage automatique
+    readonly property bool peaceAllowCritical: true
+    readonly property bool peaceScheduleEnabled: true
+    readonly property string peaceScheduleStart: "23:00"
+    readonly property string peaceScheduleEnd: "08:00"
 
     // ── Lanceur ─────────────────────────────────────────────────────────────
     readonly property int launcherMaxResults: 7

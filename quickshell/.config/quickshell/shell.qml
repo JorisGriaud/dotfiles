@@ -65,6 +65,9 @@ ShellRoot {
         function togglePower(): void { IslandState.togglePanel("power") }
         function toggleRefresh(): void { IslandState.togglePanel("refresh") }
         function togglePeace(): void { Notifs.togglePeace() }
+        // notification affichée : masquer (reste dans l'historique) / fermer
+        function hideNotification(): void { Notifs.hideCurrent() }
+        function dismissNotification(): void { Notifs.dismissCurrent() }
         // rechargement dur : recrée les fenêtres (utile si une propriété
         // de surface — couche, namespace — a changé)
         function reload(): void { Quickshell.reload(true) }

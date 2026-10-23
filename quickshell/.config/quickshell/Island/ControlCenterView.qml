@@ -209,7 +209,9 @@ IslandView {
                     id: peaceTile
                     width: root.tileWidth
                     title: "Peace"
-                    subtitle: Notifs.peace ? "Ne pas déranger" : "Notifications actives"
+                    subtitle: !Notifs.peace ? "Notifications actives"
+                        : Notifs.peaceUntil !== "" ? "Jusqu'à " + Notifs.peaceUntil
+                        : "Ne pas déranger"
                     active: Notifs.peace
                     onToggled: Notifs.togglePeace()
                     BellIcon {
@@ -379,6 +381,10 @@ IslandView {
             }
 
             // ── notifications ───────────────────────────────────────────────
+            // groupées par jour puis par application (Notifs.historyRows) ;
+            // clic sur un en-tête = replier, croix = effacer le groupe.
+            // Les entrées d'avant un redémarrage de Quickshell sont grisées :
+            // leur application ne les connaît plus, le clic ne fait rien.
             Item {
                 width: parent.width
                 height: 24
@@ -427,106 +433,206 @@ IslandView {
             ListView {
                 id: historyList
                 width: parent.width
-                height: Math.min(contentHeight, 232)
+                height: Math.min(contentHeight, 280)
                 visible: Notifs.history.length > 0
                 clip: true
-                spacing: 6
+                spacing: 4
                 boundsBehavior: Flickable.StopAtBounds
 
                 model: ScriptModel {
-                    values: Notifs.history
+                    values: root.active ? Notifs.historyRows(Time.now) : []
+                    objectProp: "rid"
                 }
 
-                delegate: Rectangle {
+                delegate: Item {
+                    id: row
                     required property var modelData
-                    required property int index
+                    readonly property string kind: modelData.kind
+                    readonly property var entry: kind === "entry" ? modelData.entry : null
 
                     width: historyList.width
-                    height: cardRow.implicitHeight + 18
-                    radius: 12
-                    color: cardMouse.containsMouse ? Theme.surfaceHover : Theme.surface
-                    Behavior on color { ColorAnimation { duration: 110 } }
+                    height: kind === "day" ? 24 : kind === "app" ? 30 : card.height
 
-                    // clic = ouvrir (action par défaut de la notif),
-                    // clic molette = retirer de l'historique.
-                    // Déclaré en premier → sous le contenu et la croix.
-                    MouseArea {
-                        id: cardMouse
+                    // ── jour ──
+                    Text {
+                        visible: row.kind === "day"
+                        anchors.left: parent.left
+                        anchors.leftMargin: 4
+                        anchors.bottom: parent.bottom
+                        anchors.bottomMargin: 2
+                        text: row.kind === "day" ? row.modelData.label.toUpperCase() : ""
+                        color: Theme.fgDim
+                        font.family: Theme.fontFamily
+                        font.pixelSize: Theme.fontSizeSmall - 2
+                        font.weight: Theme.fontWeightStrong
+                        font.letterSpacing: 0.8
+                    }
+
+                    // ── en-tête d'application ──
+                    Item {
                         anchors.fill: parent
-                        hoverEnabled: true
-                        acceptedButtons: Qt.LeftButton | Qt.MiddleButton
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: mouseEvent => {
-                            if (mouseEvent.button === Qt.MiddleButton)
-                                Notifs.removeEntry(modelData)
-                            else
-                                Notifs.activateEntry(modelData)
+                        visible: row.kind === "app"
+
+                        MouseArea {
+                            id: headMouse
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: Notifs.toggleGroup(row.modelData.key, row.modelData.collapsed)
+                        }
+
+                        Rectangle {
+                            anchors.fill: parent
+                            radius: 10
+                            color: headMouse.containsMouse ? Qt.alpha(Theme.surfaceHover, 0.5) : "transparent"
+                        }
+
+                        Row {
+                            anchors.left: parent.left
+                            anchors.leftMargin: 6
+                            anchors.verticalCenter: parent.verticalCenter
+                            spacing: 8
+
+                            Item {
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: 20
+                                height: 20
+
+                                // chargement SYNCHRONE : avec asynchronous + anchors.fill,
+                                // le recalcul de sourceSize relance le chargement en boucle
+                                IconImage {
+                                    id: headIcon
+                                    anchors.fill: parent
+                                    source: row.kind === "app" ? row.modelData.icon : ""
+                                    visible: source !== "" && status === Image.Ready
+                                }
+
+                                Rectangle {
+                                    anchors.fill: parent
+                                    radius: 10
+                                    visible: !headIcon.visible
+                                    color: row.kind === "app" && row.modelData.critical ? Theme.critical : Theme.secondary
+
+                                    Text {
+                                        anchors.centerIn: parent
+                                        text: row.kind === "app" ? row.modelData.appName[0].toUpperCase() : ""
+                                        color: Theme.islandBg
+                                        font.family: Theme.fontFamily
+                                        font.pixelSize: 11
+                                        font.weight: Theme.fontWeightStrong
+                                    }
+                                }
+                            }
+
+                            Text {
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: row.kind === "app" ? row.modelData.appName : ""
+                                color: Theme.fg
+                                font.family: Theme.fontFamily
+                                font.pixelSize: Theme.fontSizeSmall
+                                font.weight: Theme.fontWeightStrong
+                            }
+
+                            Text {
+                                anchors.verticalCenter: parent.verticalCenter
+                                visible: row.kind === "app" && row.modelData.count > 1
+                                text: row.kind === "app" ? row.modelData.count : ""
+                                color: Theme.fgDim
+                                font.family: Theme.fontFamily
+                                font.pixelSize: Theme.fontSizeSmall - 1
+                                font.weight: Theme.fontWeight
+                            }
+                        }
+
+                        Row {
+                            anchors.right: parent.right
+                            anchors.rightMargin: 4
+                            anchors.verticalCenter: parent.verticalCenter
+                            spacing: 2
+
+                            // replié : « 3 de plus » ; déplié : chevron vers le haut
+                            Text {
+                                anchors.verticalCenter: parent.verticalCenter
+                                visible: row.kind === "app" && row.modelData.count > 1
+                                text: row.kind === "app" && row.modelData.collapsed
+                                    ? (row.modelData.count - 1) + " de plus"
+                                    : "Replier"
+                                color: headMouse.containsMouse ? Theme.accent : Theme.fgDim
+                                font.family: Theme.fontFamily
+                                font.pixelSize: Theme.fontSizeSmall - 1
+                                font.weight: Theme.fontWeight
+                                rightPadding: 6
+                            }
+
+                            IslandButton {
+                                anchors.verticalCenter: parent.verticalCenter
+                                implicitWidth: 22
+                                implicitHeight: 22
+                                onClicked: Notifs.removeEntries(row.modelData.entries)
+                                CloseIcon { anchors.centerIn: parent; size: 10; color: Theme.fgDim }
+                            }
                         }
                     }
 
-                    Row {
-                        id: cardRow
-                        anchors.left: parent.left
-                        anchors.leftMargin: 12
-                        anchors.right: parent.right
-                        anchors.rightMargin: 34
-                        anchors.verticalCenter: parent.verticalCenter
-                        spacing: 10
+                    // ── notification ──
+                    Rectangle {
+                        id: card
+                        visible: row.kind === "entry"
+                        width: parent.width
+                        height: row.kind === "entry" ? cardCol.implicitHeight + 16 : 0
+                        radius: 12
+                        opacity: row.entry && row.entry.stale ? 0.55 : 1
+                        color: cardMouse.containsMouse && row.entry && !row.entry.stale
+                            ? Theme.surfaceHover : Theme.surface
+                        Behavior on color { ColorAnimation { duration: 110 } }
 
-                        // icône de l'application, sinon pastille initiale
-                        Item {
-                            anchors.verticalCenter: parent.verticalCenter
-                            width: 26
-                            height: 26
-
-                            // chargement SYNCHRONE : avec asynchronous + anchors.fill,
-                            // le recalcul de sourceSize relance le chargement en boucle
-                            // et status reste bloqué sur Loading
-                            IconImage {
-                                id: histIcon
-                                anchors.fill: parent
-                                source: modelData.icon ?? ""
-                                visible: (modelData.icon ?? "") !== "" && status === Image.Ready
-                            }
-
-                            Rectangle {
-                                anchors.fill: parent
-                                radius: 13
-                                visible: !histIcon.visible
-                                color: modelData.critical ? Theme.critical : Theme.secondary
-
-                                Text {
-                                    anchors.centerIn: parent
-                                    text: modelData.appName !== "" ? modelData.appName[0].toUpperCase() : "?"
-                                    color: Theme.islandBg
-                                    font.family: Theme.fontFamily
-                                    font.pixelSize: 13
-                                    font.weight: Theme.fontWeightStrong
-                                }
+                        // clic = ouvrir (action par défaut), molette = retirer.
+                        // Déclaré en premier → sous le contenu et la croix.
+                        MouseArea {
+                            id: cardMouse
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            acceptedButtons: Qt.LeftButton | Qt.MiddleButton
+                            cursorShape: row.entry && !row.entry.stale ? Qt.PointingHandCursor : Qt.ArrowCursor
+                            onClicked: mouseEvent => {
+                                if (mouseEvent.button === Qt.MiddleButton)
+                                    Notifs.removeEntry(row.entry)
+                                else
+                                    Notifs.activateEntry(row.entry)
                             }
                         }
 
                         Column {
+                            id: cardCol
+                            anchors.left: parent.left
+                            anchors.leftMargin: 12
+                            anchors.right: parent.right
+                            anchors.rightMargin: 34
                             anchors.verticalCenter: parent.verticalCenter
-                            width: parent.width - 36
                             spacing: 1
 
                             Item {
                                 width: parent.width
-                                height: 15
+                                height: summaryText.implicitHeight
 
                                 Text {
+                                    id: summaryText
                                     anchors.left: parent.left
-                                    text: modelData.appName
-                                    color: modelData.critical ? Theme.critical : Theme.fgDim
+                                    anchors.right: timeText.left
+                                    anchors.rightMargin: 8
+                                    elide: Text.ElideRight
+                                    text: row.entry ? row.entry.summary : ""
+                                    color: row.entry && row.entry.critical ? Theme.critical : Theme.fg
                                     font.family: Theme.fontFamily
-                                    font.pixelSize: Theme.fontSizeSmall - 1
-                                    font.weight: Theme.fontWeight
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    font.weight: Theme.fontWeightStrong
                                 }
 
                                 Text {
+                                    id: timeText
                                     anchors.right: parent.right
-                                    text: modelData.time
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    text: row.entry ? Notifs.ago(row.entry.time, Time.now) : ""
                                     color: Theme.fgDim
                                     font.family: Theme.fontFamily
                                     font.pixelSize: Theme.fontSizeSmall - 1
@@ -536,40 +642,31 @@ IslandView {
 
                             Text {
                                 width: parent.width
-                                elide: Text.ElideRight
-                                text: modelData.summary
-                                color: Theme.fg
-                                font.family: Theme.fontFamily
-                                font.pixelSize: Theme.fontSizeSmall
-                                font.weight: Theme.fontWeightStrong
-                            }
-
-                            Text {
-                                width: parent.width
                                 visible: text !== ""
                                 elide: Text.ElideRight
-                                wrapMode: Text.WordWrap
+                                wrapMode: Text.Wrap
                                 maximumLineCount: 2
-                                text: modelData.body
-                                textFormat: Text.PlainText
+                                text: row.entry ? Notifs.richBody(row.entry.body) : ""
+                                textFormat: Text.StyledText
+                                linkColor: Theme.secondary
                                 color: Theme.fgDim
                                 font.family: Theme.fontFamily
                                 font.pixelSize: Theme.fontSizeSmall
                                 font.weight: Theme.fontWeight
+                                onLinkActivated: link => Qt.openUrlExternally(link)
                             }
                         }
-                    }
 
-                    // croix de suppression (comme la maquette)
-                    IslandButton {
-                        anchors.right: parent.right
-                        anchors.rightMargin: 6
-                        anchors.top: parent.top
-                        anchors.topMargin: 6
-                        implicitWidth: 22
-                        implicitHeight: 22
-                        onClicked: Notifs.removeEntry(modelData)
-                        CloseIcon { anchors.centerIn: parent; size: 11; color: Theme.fgDim }
+                        IslandButton {
+                            anchors.right: parent.right
+                            anchors.rightMargin: 6
+                            anchors.top: parent.top
+                            anchors.topMargin: 6
+                            implicitWidth: 22
+                            implicitHeight: 22
+                            onClicked: Notifs.removeEntry(row.entry)
+                            CloseIcon { anchors.centerIn: parent; size: 11; color: Theme.fgDim }
+                        }
                     }
                 }
             }

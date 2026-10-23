@@ -70,8 +70,16 @@ navigation ←/→ ou Tab) :
   (choix des sorties/entrées **renommables**), Bluetooth, mode Ne pas déranger.
 - **Lanceur** : recherche d'applications, **calculatrice** temps réel (`=`),
   **recherche de fichiers** (`/`, via `fd`).
-- **Notifications** : file d'attente, pause au survol, critiques en rouge,
-  mode « Peace », historique avec actions (ouvrir / retirer).
+- **Notifications** : application et heure, texte mis en forme (déplié au
+  survol), barre de temps restant (figée au survol), regroupement par
+  application, compteur « +N » de file d'attente, délai raccourci en rafale,
+  boutons d'action, réponse rapide, vignette d'image. Les critiques restent
+  affichées jusqu'à la croix.
+- **Historique** : groupé par jour et par application, repliable, heures
+  relatives, conservé au redémarrage de Quickshell (en lecture seule : les
+  applications ne connaissent plus ces notifications).
+- **Ne pas déranger** : laisse passer les critiques, plage automatique
+  (23 h à 8 h par défaut), résumé à la sortie, pastille de non-lus au repos.
 - **Polkit** : les demandes d'élévation s'affichent dans l'îlot.
 - **Connexion et verrouillage** : greeter greetd et écran de verrouillage au
   même visuel (voir plus bas).
@@ -207,6 +215,8 @@ Raccourcis globaux natifs déclarés par le shell (appid `island`) : `launcher`,
 | `togglePower` | ouvre/ferme le menu d'alimentation |
 | `toggleRefresh` | ouvre/ferme le panneau de rafraîchissement (shell, réseau, son…) |
 | `togglePeace` | bascule le mode Ne pas déranger |
+| `hideNotification` | masque la notification affichée (reste dans l'historique) |
+| `dismissNotification` | ferme la notification affichée |
 | `ccPage <network\|audio\|bluetooth>` | ouvre directement une page du centre de contrôle |
 | `volumeUp` / `volumeDown` / `muteToggle` | volume |
 | `brightnessUp` / `brightnessDown` | luminosité |
@@ -229,6 +239,8 @@ Verrouillage (`qs ipc call lock <fn>`) :
 | Clic dans le vide | épingle / désépingle l'îlot ouvert |
 | Clic en dehors d'un panneau | le referme |
 | Clic sur une notification | ouvre l'app/la page, molette = retire |
+| Clic sur « +N » | notification suivante, molette = passer toute la file |
+| Clic sur un groupe de l'historique | le replie ou le déplie |
 
 ### Personnalisation
 

@@ -132,6 +132,10 @@ PanelWindow {
         case "control":    // Échap toujours actif : un clic dans le vide
         case "calendar":   // ne doit jamais voler le focus du panneau
             return WlrKeyboardFocus.Exclusive
+        case "notification":
+            // le clavier seulement pendant une réponse rapide : une
+            // notification ne doit jamais voler la saisie en cours
+            return Notifs.replying ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
         default:
             return WlrKeyboardFocus.None
         }

@@ -291,7 +291,7 @@ IslandView {
                 width: Math.min(implicitWidth,
                                 parent.width - 200)
                 elide: Text.ElideRight
-                text: Notifs.current?.body ?? ""
+                text: Notifs.plainText(Notifs.current?.body ?? "")
                 textFormat: Text.PlainText
                 color: Theme.fgDim
                 font.family: Theme.fontFamily

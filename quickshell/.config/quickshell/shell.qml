@@ -3,6 +3,7 @@ import Quickshell.Io
 import Quickshell.Hyprland
 import qs.Services
 import qs.Island
+import qs.Login
 
 /**
  * Morphing Island — point d'entrée.
@@ -19,6 +20,9 @@ ShellRoot {
         model: Quickshell.screens
         Island {}
     }
+
+    // écran de verrouillage (même visuel que le greeter, voir greeter.qml)
+    LockScreen {}
 
     // raccourci natif Hyprland : bind = SUPER, SPACE, global, island:launcher
     GlobalShortcut {
@@ -43,6 +47,13 @@ ShellRoot {
         onPressed: IslandState.togglePanel("power")
     }
 
+    GlobalShortcut {
+        appid: "island"
+        name: "refresh"
+        description: "Panneau de rafraîchissement (shell, réseau, son…)"
+        onPressed: IslandState.togglePanel("refresh")
+    }
+
     // pilotage en ligne de commande :
     //   qs -p ~/Documents/quickshell-ytb ipc call island toggleLauncher
     IpcHandler {
@@ -52,6 +63,7 @@ ShellRoot {
         function toggleControlCenter(): void { IslandState.togglePanel("control") }
         function toggleCalendar(): void { IslandState.togglePanel("calendar") }
         function togglePower(): void { IslandState.togglePanel("power") }
+        function toggleRefresh(): void { IslandState.togglePanel("refresh") }
         function togglePeace(): void { Notifs.togglePeace() }
         // rechargement dur : recrée les fenêtres (utile si une propriété
         // de surface — couche, namespace — a changé)

@@ -20,16 +20,19 @@ IslandView {
     readonly property var entries: [
         {
             label: "Éteindre",
+            icon: "power",
             tone: Theme.powerOff,
             command: ["systemctl", "poweroff"],
         },
         {
             label: "Redémarrer",
+            icon: "restart",
             tone: Theme.powerRestart,
             command: ["systemctl", "reboot"],
         },
         {
             label: "Déconnexion",
+            icon: "logout",
             tone: Theme.powerLogout,
             // syntaxe classique, puis repli Lua (Hyprland ≥ 0.55)
             command: ["sh", "-c", "hyprctl dispatch exit || hyprctl dispatch 'hl.dsp.exit()'"],
@@ -98,19 +101,19 @@ IslandView {
 
                 PowerIcon {
                     anchors.centerIn: parent
-                    visible: index === 0
+                    visible: entry.icon === "power"
                     size: 21
                     color: tone
                 }
                 RestartIcon {
                     anchors.centerIn: parent
-                    visible: index === 1
+                    visible: entry.icon === "restart"
                     size: 21
                     color: tone
                 }
                 LogoutIcon {
                     anchors.centerIn: parent
-                    visible: index === 2
+                    visible: entry.icon === "logout"
                     size: 21
                     color: tone
                 }

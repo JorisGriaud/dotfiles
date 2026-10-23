@@ -36,36 +36,31 @@ IslandView {
             font.weight: Theme.fontWeightStrong
         }
 
-        // notifications non vues ; lune = Ne pas déranger
+        // Ne pas déranger : lune seule, à la taille du texte
+        MoonIcon {
+            anchors.verticalCenter: parent.verticalCenter
+            visible: Notifs.peace
+            size: 18
+            color: Theme.powerRestart
+        }
+
+        // notifications non vues (grise pendant Ne pas déranger)
         Rectangle {
             anchors.verticalCenter: parent.verticalCenter
-            visible: Notifs.unread > 0 || Notifs.peace
+            visible: Notifs.unread > 0
             height: 20
-            width: Math.max(20, badgeRow.implicitWidth + 12)
+            width: Math.max(20, unreadText.implicitWidth + 12)
             radius: 10
-            color: Notifs.unread > 0 && !Notifs.peace ? Theme.accent : Theme.surface
+            color: Notifs.peace ? Theme.surface : Theme.accent
 
-            Row {
-                id: badgeRow
+            Text {
+                id: unreadText
                 anchors.centerIn: parent
-                spacing: 4
-
-                MoonIcon {
-                    anchors.verticalCenter: parent.verticalCenter
-                    visible: Notifs.peace
-                    size: 12
-                    color: Theme.powerRestart
-                }
-
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    visible: Notifs.unread > 0
-                    text: Notifs.unread > 99 ? "99+" : Notifs.unread
-                    color: Theme.fg
-                    font.family: Theme.fontFamily
-                    font.pixelSize: Theme.fontSizeSmall - 1
-                    font.weight: Theme.fontWeightStrong
-                }
+                text: Notifs.unread > 99 ? "99+" : Notifs.unread
+                color: Theme.fg
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontSizeSmall - 1
+                font.weight: Theme.fontWeightStrong
             }
         }
 
